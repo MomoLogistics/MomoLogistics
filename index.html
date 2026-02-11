@@ -1,1 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momo Logistics</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255,255,255,.05),
+      rgba(255,255,255,.05) 12px,
+      transparent 12px,
+      transparent 24px
+    ),
+    linear-gradient(180deg,#0a3d91,#0b5ed7);
+}
+
+/* WOJTEK BACKGROUND */
+.wojtek-bg{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+.wojtek{
+  position:absolute;
+  font-size:120px;
+  font-weight:900;
+  font-family:"Comic Sans MS","Trebuchet MS",cursive;
+  color:rgba(255,255,255,0.08);
+  text-shadow:0 0 15px rgba(255,255,255,.15);
+  animation:float 16s ease-in-out infinite;
+  transform:rotate(-8deg);
+}
+.wojtek:nth-child(2){top:55%;left:8%;font-size:90px;animation-duration:20s}
+.wojtek:nth-child(3){top:30%;left:55%;font-size:140px;animation-duration:24s}
+
+@keyframes float{
+  0%{transform:translateY(0) rotate(-8deg)}
+  50%{transform:translateY(-35px) rotate(6deg)}
+  100%{transform:translateY(0) rotate(-8deg)}
+}
+
+header,section,footer,.road{position:relative;z-index:2}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 30px;
+}
+.logo{
+  font-size:32px;
+  font-weight:900;
+}
+.logo span{color:#ffcc00}
+.lang button{
+  margin-left:5px;
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* HERO */
+.hero{
+  padding:80px 20px;
+  text-align:center;
+}
+.hero h1{font-size:46px;font-weight:900}
+.hero p{opacity:.9}
+
+/* TRACK */
+.track-box{
+  margin:40px auto 0;
+  max-width:420px;
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  display:flex;
+  gap:10px;
+}
+.track-box input{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:8px;
+}
+.track-box button{
+  background:#0a3d91;
+  color:#fff;
+  border:none;
+  padding:14px 18px;
+  border-radius:8px;
+  font-weight:700;
+}
+
+/* ROAD + TRUCKS */
+.road{
+  height:160px;
+  margin-top:60px;
+  background:#1c1c1c;
+  position:relative;
+  overflow:hidden;
+}
+.road:before{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:0;
+  right:0;
+  height:6px;
+  background:repeating-linear-gradient(
+    to right,#fff,#fff 30px,transparent 30px,transparent 60px
+  );
+}
+.truck{
+  position:absolute;
+  bottom:30px;
+  font-size:70px;
+  animation:drive 12s linear infinite;
+}
+.truck.second{
+  bottom:70px;
+  font-size:60px;
+  animation-duration:18s;
+}
+@keyframes drive{
+  from{left:-120px}
+  to{left:110%}
+}
+
+/* FEATURES */
+.features{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin:70px 20px;
+}
+.feature{
+  background:rgba(0,0,0,.25);
+  padding:20px 26px;
+  border-radius:18px;
+  font-weight:700;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:25px;
+  background:#082c66;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wojtek-bg">
+  <div class="wojtek" style="top:10%;left:5%">WOJTEK</div>
+  <div class="wojtek">WOJTEK</div>
+  <div class="wojtek">WOJTEK</div>
+</div>
+
+<header>
+  <div class="logo">Momo <span>Logistics</span></div>
+  <div class="lang">
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('pl')">PL</button>
+    <button onclick="setLang('cz')">CZ</button>
+    <button onclick="setLang('ru')">RU</button>
+    <button onclick="setLang('ua')">UA</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1 data-lang="title"></h1>
+  <p data-lang="subtitle"></p>
+
+  <div class="track-box">
+    <input data-lang-placeholder="placeholder">
+    <button data-lang="track"></button>
+  </div>
+</section>
+
+<div class="road">
+  <div class="truck">🚚</div>
+  <div class="truck second">🚛</div>
+</div>
+
+<section class="features">
+  <div class="feature" data-lang="f1"></div>
+  <div class="feature" data-lang="f2"></div>
+  <div class="feature" data-lang="f3"></div>
+  <div class="feature" data-lang="f4"></div>
+</section>
+
+<footer>© 2026 Momo Logistics</footer>
+
+<script>
+const t={
+ en:{
+  title:"Track Your Shipment",
+  subtitle:"Fast • Reliable • Nationwide USA Transport",
+  placeholder:"Enter Tracking Number",
+  track:"Track",
+  f1:"🚚 Long Haul Transport",
+  f2:"📦 Real-Time Tracking",
+  f3:"⚡ Fast Delivery",
+  f4:"🛣️ All 50 States"
+ },
+ pl:{
+  title:"Śledź swoją przesyłkę",
+  subtitle:"Szybki • Niezawodny • Transport USA",
+  placeholder:"Wpisz numer przesyłki",
+  track:"Śledź",
+  f1:"🚚 Transport dalekobieżny",
+  f2:"📦 Śledzenie na żywo",
+  f3:"⚡ Szybka dostawa",
+  f4:"🛣️ Całe USA"
+ },
+ cz:{
+  title:"Sledování zásilky",
+  subtitle:"Rychlé • Spolehlivé • Přeprava USA",
+  placeholder:"Zadejte číslo zásilky",
+  track:"Sledovat",
+  f1:"🚚 Dálková doprava",
+  f2:"📦 Online sledování",
+  f3:"⚡ Rychlé doručení",
+  f4:"🛣️ Celé USA"
+ },
+ ru:{
+  title:"Отследить груз",
+  subtitle:"Быстро • Надёжно • Перевозки по США",
+  placeholder:"Введите номер отправления",
+  track:"Отследить",
+  f1:"🚚 Дальние перевозки",
+  f2:"📦 Онлайн трекинг",
+  f3:"⚡ Быстрая доставка",
+  f4:"🛣️ Все штаты США"
+ },
+ ua:{
+  title:"Відстеження вантажу",
+  subtitle:"Швидко • Надійно • Доставка по США",
+  placeholder:"Введіть номер відправлення",
+  track:"Відстежити",
+  f1:"🚚 Далекі перевезення",
+  f2:"📦 Онлайн відстеження",
+  f3:"⚡ Швидка доставка",
+  f4:"🛣️ Всі штати США"
+ }
+};
+
+function setLang(l){
+ localStorage.setItem("lang",l);
+ document.querySelectorAll("[data-lang]").forEach(e=>{
+  e.innerText=t[l][e.dataset.lang];
+ });
+ document.querySelectorAll("[data-lang-placeholder]").forEach(e=>{
+  e.placeholder=t[l][e.dataset.langPlaceholder];
+ });
+}
+
+setLang(localStorage.getItem("lang")||"en");
+</script>
+
+</body>
+</html>
