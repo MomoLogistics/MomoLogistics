@@ -11,45 +11,17 @@ body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   color:#fff;
-  overflow-x:hidden;
   background:
     repeating-linear-gradient(
-      135deg,
+      45deg,
       rgba(255,255,255,.05),
-      rgba(255,255,255,.05) 12px,
-      transparent 12px,
-      transparent 24px
+      rgba(255,255,255,.05) 20px,
+      transparent 20px,
+      transparent 40px
     ),
     linear-gradient(180deg,#0a3d91,#0b5ed7);
+  overflow-x:hidden;
 }
-
-/* WOJTEK BACKGROUND */
-.wojtek-bg{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-}
-.wojtek{
-  position:absolute;
-  font-size:120px;
-  font-weight:900;
-  font-family:"Comic Sans MS","Trebuchet MS",cursive;
-  color:rgba(255,255,255,0.08);
-  text-shadow:0 0 15px rgba(255,255,255,.15);
-  animation:float 16s ease-in-out infinite;
-  transform:rotate(-8deg);
-}
-.wojtek:nth-child(2){top:55%;left:8%;font-size:90px;animation-duration:20s}
-.wojtek:nth-child(3){top:30%;left:55%;font-size:140px;animation-duration:24s}
-
-@keyframes float{
-  0%{transform:translateY(0) rotate(-8deg)}
-  50%{transform:translateY(-35px) rotate(6deg)}
-  100%{transform:translateY(0) rotate(-8deg)}
-}
-
-header,section,footer,.road{position:relative;z-index:2}
 
 /* HEADER */
 header{
@@ -63,8 +35,10 @@ header{
   font-weight:900;
 }
 .logo span{color:#ffcc00}
+
+/* LANG */
 .lang button{
-  margin-left:5px;
+  margin-left:6px;
   padding:6px 10px;
   border:none;
   border-radius:6px;
@@ -72,17 +46,34 @@ header{
   cursor:pointer;
 }
 
+/* WOJTEK BACKGROUND */
+.wojtek{
+  position:fixed;
+  font-size:120px;
+  font-weight:900;
+  color:rgba(255,255,255,.08);
+  top:40%;
+  left:-40%;
+  animation:floatW 20s linear infinite;
+  pointer-events:none;
+  font-family:"Comic Sans MS",cursive;
+}
+@keyframes floatW{
+  from{transform:translateX(0)}
+  to{transform:translateX(180vw)}
+}
+
 /* HERO */
 .hero{
   padding:80px 20px;
   text-align:center;
 }
-.hero h1{font-size:46px;font-weight:900}
+.hero h1{font-size:46px}
 .hero p{opacity:.9}
 
 /* TRACK */
 .track-box{
-  margin:40px auto 0;
+  margin:40px auto;
   max-width:420px;
   background:#fff;
   padding:20px;
@@ -103,12 +94,12 @@ header{
   padding:14px 18px;
   border-radius:8px;
   font-weight:700;
+  cursor:pointer;
 }
 
-/* ROAD + TRUCKS */
+/* ROAD */
 .road{
-  height:160px;
-  margin-top:60px;
+  height:150px;
   background:#1c1c1c;
   position:relative;
   overflow:hidden;
@@ -117,11 +108,14 @@ header{
   content:"";
   position:absolute;
   top:50%;
-  left:0;
-  right:0;
+  left:0;right:0;
   height:6px;
   background:repeating-linear-gradient(
-    to right,#fff,#fff 30px,transparent 30px,transparent 60px
+    to right,
+    #fff 0,
+    #fff 30px,
+    transparent 30px,
+    transparent 60px
   );
 }
 .truck{
@@ -140,37 +134,32 @@ header{
   to{left:110%}
 }
 
-/* FEATURES */
-.features{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
-  margin:70px 20px;
-}
-.feature{
-  background:rgba(0,0,0,.25);
-  padding:20px 26px;
-  border-radius:18px;
+/* MUSIC BUTTON */
+#musicBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  border:none;
+  padding:12px 18px;
+  border-radius:40px;
   font-weight:700;
+  cursor:pointer;
 }
 
 /* FOOTER */
 footer{
-  text-align:center;
-  padding:25px;
   background:#082c66;
+  text-align:center;
+  padding:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wojtek-bg">
-  <div class="wojtek" style="top:10%;left:5%">WOJTEK</div>
-  <div class="wojtek">WOJTEK</div>
-  <div class="wojtek">WOJTEK</div>
-</div>
+<div class="wojtek">WOJTEK</div>
 
 <header>
   <div class="logo">Momo <span>Logistics</span></div>
@@ -184,12 +173,12 @@ footer{
 </header>
 
 <section class="hero">
-  <h1 data-lang="title"></h1>
-  <p data-lang="subtitle"></p>
+  <h1 data-t="title"></h1>
+  <p data-t="sub"></p>
 
   <div class="track-box">
-    <input data-lang-placeholder="placeholder">
-    <button data-lang="track"></button>
+    <input type="text" data-t-ph="ph">
+    <button data-t="btn"></button>
   </div>
 </section>
 
@@ -198,80 +187,36 @@ footer{
   <div class="truck second">🚛</div>
 </div>
 
-<section class="features">
-  <div class="feature" data-lang="f1"></div>
-  <div class="feature" data-lang="f2"></div>
-  <div class="feature" data-lang="f3"></div>
-  <div class="feature" data-lang="f4"></div>
-</section>
-
 <footer>© 2026 Momo Logistics</footer>
+
+<audio id="bgMusic" loop>
+  <source src="polish-music.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn">🎵 Music</button>
 
 <script>
 const t={
- en:{
-  title:"Track Your Shipment",
-  subtitle:"Fast • Reliable • Nationwide USA Transport",
-  placeholder:"Enter Tracking Number",
-  track:"Track",
-  f1:"🚚 Long Haul Transport",
-  f2:"📦 Real-Time Tracking",
-  f3:"⚡ Fast Delivery",
-  f4:"🛣️ All 50 States"
- },
- pl:{
-  title:"Śledź swoją przesyłkę",
-  subtitle:"Szybki • Niezawodny • Transport USA",
-  placeholder:"Wpisz numer przesyłki",
-  track:"Śledź",
-  f1:"🚚 Transport dalekobieżny",
-  f2:"📦 Śledzenie na żywo",
-  f3:"⚡ Szybka dostawa",
-  f4:"🛣️ Całe USA"
- },
- cz:{
-  title:"Sledování zásilky",
-  subtitle:"Rychlé • Spolehlivé • Přeprava USA",
-  placeholder:"Zadejte číslo zásilky",
-  track:"Sledovat",
-  f1:"🚚 Dálková doprava",
-  f2:"📦 Online sledování",
-  f3:"⚡ Rychlé doručení",
-  f4:"🛣️ Celé USA"
- },
- ru:{
-  title:"Отследить груз",
-  subtitle:"Быстро • Надёжно • Перевозки по США",
-  placeholder:"Введите номер отправления",
-  track:"Отследить",
-  f1:"🚚 Дальние перевозки",
-  f2:"📦 Онлайн трекинг",
-  f3:"⚡ Быстрая доставка",
-  f4:"🛣️ Все штаты США"
- },
- ua:{
-  title:"Відстеження вантажу",
-  subtitle:"Швидко • Надійно • Доставка по США",
-  placeholder:"Введіть номер відправлення",
-  track:"Відстежити",
-  f1:"🚚 Далекі перевезення",
-  f2:"📦 Онлайн відстеження",
-  f3:"⚡ Швидка доставка",
-  f4:"🛣️ Всі штати США"
- }
+ en:{title:"Track Your Shipment",sub:"Fast American Trucking",ph:"Tracking number",btn:"Track"},
+ pl:{title:"Śledź przesyłkę",sub:"Szybki transport USA",ph:"Numer przesyłki",btn:"Sprawdź"},
+ cz:{title:"Sledování zásilky",sub:"Rychlá přeprava USA",ph:"Číslo zásilky",btn:"Sledovat"},
+ ru:{title:"Отследить груз",sub:"Быстрая доставка США",ph:"Номер отправления",btn:"Найти"},
+ ua:{title:"Відстеження посилки",sub:"Швидка доставка США",ph:"Номер відправлення",btn:"Знайти"}
 };
-
 function setLang(l){
  localStorage.setItem("lang",l);
- document.querySelectorAll("[data-lang]").forEach(e=>{
-  e.innerText=t[l][e.dataset.lang];
- });
- document.querySelectorAll("[data-lang-placeholder]").forEach(e=>{
-  e.placeholder=t[l][e.dataset.langPlaceholder];
- });
+ document.querySelectorAll("[data-t]").forEach(e=>e.innerText=t[l][e.dataset.t]);
+ document.querySelectorAll("[data-t-ph]").forEach(e=>e.placeholder=t[l][e.dataset.tPh]);
 }
-
 setLang(localStorage.getItem("lang")||"en");
+
+const music=document.getElementById("bgMusic");
+const btn=document.getElementById("musicBtn");
+let on=false;
+btn.onclick=()=>{
+ if(!on){music.play();btn.innerText="🔊 Music On";}
+ else{music.pause();btn.innerText="🎵 Music";}
+ on=!on;
+};
 </script>
 
 </body>
