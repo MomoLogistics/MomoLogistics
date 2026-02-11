@@ -14,13 +14,30 @@ body{
   background:
     repeating-linear-gradient(
       45deg,
-      rgba(255,255,255,.05),
-      rgba(255,255,255,.05) 20px,
+      rgba(255,255,255,.06),
+      rgba(255,255,255,.06) 20px,
       transparent 20px,
       transparent 40px
     ),
-    linear-gradient(180deg,#0a3d91,#0b5ed7);
+    linear-gradient(180deg,#0a3d91,#0b6cff);
   overflow-x:hidden;
+}
+
+/* WOJTEK FLOAT */
+.wojtek{
+  position:fixed;
+  top:40%;
+  left:-50%;
+  font-size:120px;
+  font-weight:900;
+  color:rgba(255,255,255,.08);
+  font-family:"Comic Sans MS",cursive;
+  animation:moveW 22s linear infinite;
+  pointer-events:none;
+}
+@keyframes moveW{
+  from{transform:translateX(0)}
+  to{transform:translateX(220vw)}
 }
 
 /* HEADER */
@@ -28,13 +45,13 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:20px 30px;
+  padding:18px 24px;
 }
 .logo{
   font-size:32px;
   font-weight:900;
 }
-.logo span{color:#ffcc00}
+.logo span{color:#ffd000}
 
 /* LANG */
 .lang button{
@@ -46,48 +63,31 @@ header{
   cursor:pointer;
 }
 
-/* WOJTEK BACKGROUND */
-.wojtek{
-  position:fixed;
-  font-size:120px;
-  font-weight:900;
-  color:rgba(255,255,255,.08);
-  top:40%;
-  left:-40%;
-  animation:floatW 20s linear infinite;
-  pointer-events:none;
-  font-family:"Comic Sans MS",cursive;
-}
-@keyframes floatW{
-  from{transform:translateX(0)}
-  to{transform:translateX(180vw)}
-}
-
 /* HERO */
 .hero{
-  padding:80px 20px;
   text-align:center;
+  padding:80px 20px;
 }
-.hero h1{font-size:46px}
+.hero h1{font-size:44px;margin-bottom:10px}
 .hero p{opacity:.9}
 
 /* TRACK */
-.track-box{
+.track{
   margin:40px auto;
   max-width:420px;
   background:#fff;
-  padding:20px;
+  padding:18px;
   border-radius:14px;
   display:flex;
   gap:10px;
 }
-.track-box input{
+.track input{
   flex:1;
   padding:14px;
   border:none;
   border-radius:8px;
 }
-.track-box button{
+.track button{
   background:#0a3d91;
   color:#fff;
   border:none;
@@ -99,8 +99,8 @@ header{
 
 /* ROAD */
 .road{
-  height:150px;
-  background:#1c1c1c;
+  height:160px;
+  background:#1b1b1b;
   position:relative;
   overflow:hidden;
 }
@@ -125,7 +125,7 @@ header{
   animation:drive 12s linear infinite;
 }
 .truck.second{
-  bottom:70px;
+  bottom:80px;
   font-size:60px;
   animation-duration:18s;
 }
@@ -148,11 +148,10 @@ header{
   cursor:pointer;
 }
 
-/* FOOTER */
 footer{
   background:#082c66;
   text-align:center;
-  padding:20px;
+  padding:18px;
 }
 </style>
 </head>
@@ -176,8 +175,8 @@ footer{
   <h1 data-t="title"></h1>
   <p data-t="sub"></p>
 
-  <div class="track-box">
-    <input type="text" data-t-ph="ph">
+  <div class="track">
+    <input type="text" data-ph>
     <button data-t="btn"></button>
   </div>
 </section>
@@ -189,8 +188,9 @@ footer{
 
 <footer>© 2026 Momo Logistics</footer>
 
-<audio id="bgMusic" loop>
-  <source src="polish-music.mp3" type="audio/mpeg">
+<!-- ONLINE MUSIC -->
+<audio id="bgMusic" preload="none" crossorigin="anonymous">
+  <source src="https://stream.rcs.revma.com/ypqt40u0x1zuv" type="audio/mpeg">
 </audio>
 <button id="musicBtn">🎵 Music</button>
 
@@ -200,22 +200,32 @@ const t={
  pl:{title:"Śledź przesyłkę",sub:"Szybki transport USA",ph:"Numer przesyłki",btn:"Sprawdź"},
  cz:{title:"Sledování zásilky",sub:"Rychlá přeprava USA",ph:"Číslo zásilky",btn:"Sledovat"},
  ru:{title:"Отследить груз",sub:"Быстрая доставка США",ph:"Номер отправления",btn:"Найти"},
- ua:{title:"Відстеження посилки",sub:"Швидка доставка США",ph:"Номер відправлення",btn:"Знайти"}
+ ua:{title:"Відстежити посилку",sub:"Швидка доставка США",ph:"Номер відправлення",btn:"Знайти"}
 };
+
 function setLang(l){
  localStorage.setItem("lang",l);
  document.querySelectorAll("[data-t]").forEach(e=>e.innerText=t[l][e.dataset.t]);
- document.querySelectorAll("[data-t-ph]").forEach(e=>e.placeholder=t[l][e.dataset.tPh]);
+ document.querySelector("[data-ph]").placeholder=t[l].ph;
 }
 setLang(localStorage.getItem("lang")||"en");
 
+/* MUSIC */
 const music=document.getElementById("bgMusic");
 const btn=document.getElementById("musicBtn");
-let on=false;
+let playing=false;
+
 btn.onclick=()=>{
- if(!on){music.play();btn.innerText="🔊 Music On";}
- else{music.pause();btn.innerText="🎵 Music";}
- on=!on;
+ if(!playing){
+  music.volume=0.4;
+  music.play().catch(()=>alert("Tap again to enable sound"));
+  btn.innerText="🔊 Music On";
+  playing=true;
+ }else{
+  music.pause();
+  btn.innerText="🎵 Music";
+  playing=false;
+ }
 };
 </script>
 
